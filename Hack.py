@@ -57,7 +57,7 @@ boxes = [(316, 179, 396, 261), (408, 176, 493, 262),
          (312, 462, 397, 549), (409, 464, 493, 548)]
 
 
-def fp():
+def finger_print():
     """Fingerprint Hack!
     Spoofs print to match the Finger impression"""
     print("Starting Fingerprint Hack")
@@ -106,7 +106,7 @@ def idle():
 
 
 if __name__ == '__main__':
-    add_hotkey('ctrl+shift+h', fp)
+    add_hotkey('ctrl+shift+h', finger_print)
     add_hotkey('ctrl+shift+i', idle)
     print("Started")
     wait()
