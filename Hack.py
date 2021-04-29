@@ -37,7 +37,7 @@ def nav(positions):
     press('tab')
 
 
-def getImage(bbox=(600, 100, 900, 500)):
+def get_image(bbox=(600, 100, 900, 500)):
     # Starting Point (600, 100, 900, 500)
     img = array(grab(bbox=bbox))
     return cvtColor(img, COLOR_BGR2GRAY)
@@ -65,7 +65,7 @@ def finger_print():
 
     # Searches for Matches across the four Fingerprints
     while True:
-        screen = getImage()
+        screen = get_image()
         for (index, image) in enumerate(FTemp):
             res = matchTemplate(screen, image[0], TM_CCOEFF_NORMED)
             loc = where(res >= 0.8)
@@ -82,7 +82,7 @@ def finger_print():
     # Creates a list for Navigation
     for (boxIndex, box) in enumerate(boxes):
         for (biometricIndex, biometric) in enumerate(FTemp[match]):
-            screen = getImage(bbox=box)
+            screen = get_image(bbox=box)
             res = matchTemplate(screen, biometric, TM_CCOEFF_NORMED)
             loc = where(res >= 0.8)
 
