@@ -106,7 +106,7 @@ def idle():
 
 
 if __name__ == '__main__':
-    add_hotkey('ctrl+shift+h', finger_print)
-    add_hotkey('ctrl+shift+i', idle)
+    add_hotkey('ctrl+shift+i', finger_print)
+    # add_hotkey('ctrl+shift+i', idle)
     print("Started")
     wait()
