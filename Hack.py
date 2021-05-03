@@ -93,6 +93,7 @@ def finger_print():
     # print(targetList)
     nav(targetList)
     FTemp[match] = deepcopy(FOriginal[match])
+    print("Done")
 
 
 def idle():
@@ -109,4 +110,5 @@ if __name__ == '__main__':
     add_hotkey('ctrl+shift+i', finger_print)
     # add_hotkey('ctrl+shift+i', idle)
     print("Started")
+    print("Make sure to start the program in 1280x720 resolution")
     wait()
