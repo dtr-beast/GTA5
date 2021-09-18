@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent
 chdir(BASE_DIR)
 
 
-def nav(positions):
+def navigate(positions):
     """Navigates and selects the matching prints"""
     x = y = 0  # Keeps track of current location
     for (index, pos) in enumerate(positions):
@@ -38,17 +38,21 @@ def nav(positions):
 
 
 def get_image(bbox=(600, 100, 900, 500)):
+    """
+    Returns a screenshot of the given area,
+    By default returns a screenshot of the fingerprint
+    """
     # Starting Point (600, 100, 900, 500)
     img = array(grab(bbox=bbox))
     return cvtColor(img, COLOR_BGR2GRAY)
 
 
 # Load files for Fingerprint Hack
-FOriginal = [[imread(f'Images/FP/F1{x}.jpg', 0) for x in range(5)],
-             [imread(f'Images/FP/F2{x}.jpg', 0) for x in range(5)],
-             [imread(f'Images/FP/F3{x}.jpg', 0) for x in range(5)],
-             [imread(f'Images/FP/F4{x}.jpg', 0) for x in range(5)]]
-FTemp = deepcopy(FOriginal)
+PHOTO_SOURCE = [[imread(f'Images/FP/F1{x}.jpg', 0) for x in range(5)],
+                [imread(f'Images/FP/F2{x}.jpg', 0) for x in range(5)],
+                [imread(f'Images/FP/F3{x}.jpg', 0) for x in range(5)],
+                [imread(f'Images/FP/F4{x}.jpg', 0) for x in range(5)]]
+PHOTO_TEMP = deepcopy(PHOTO_SOURCE)
 
 # Location of prints for 720p Screen
 boxes = [(316, 179, 396, 261), (408, 176, 493, 262),
@@ -58,41 +62,43 @@ boxes = [(316, 179, 396, 261), (408, 176, 493, 262),
 
 
 def finger_print():
-    """Fingerprint Hack!
-    Spoofs print to match the Finger impression"""
+    """
+    Fingerprint Hack!
+    Spoofs print to match the Finger impression
+    """
+
     print("Starting Fingerprint Hack")
     match = None
 
     # Searches for Matches across the four Fingerprints
     while True:
         screen = get_image()
-        for (index, image) in enumerate(FTemp):
+        for (index, image) in enumerate(PHOTO_TEMP):
             res = matchTemplate(screen, image[0], TM_CCOEFF_NORMED)
             loc = where(res >= 0.8)
 
             if len(loc[0]) != 0:
                 match = index  # Stores the index of the match fingerprint
-                # print(match)
                 break
 
         if match is not None:
             break
 
-    targetList = [0 for _ in range(8)]
+    target_list = [0 for _ in range(8)]
     # Creates a list for Navigation
-    for (boxIndex, box) in enumerate(boxes):
-        for (biometricIndex, biometric) in enumerate(FTemp[match]):
+    for (box_index, box) in enumerate(boxes):
+        for (biometric_idx, biometric) in enumerate(PHOTO_TEMP[match]):
             screen = get_image(bbox=box)
             res = matchTemplate(screen, biometric, TM_CCOEFF_NORMED)
             loc = where(res >= 0.8)
 
             if len(loc[0]) != 0:
-                targetList[boxIndex] = 1
-                FTemp[match].pop(biometricIndex)
+                target_list[box_index] = 1
+                PHOTO_TEMP[match].pop(biometric_idx)
                 break
-    # print(targetList)
-    nav(targetList)
-    FTemp[match] = deepcopy(FOriginal[match])
+
+    navigate(target_list)
+    PHOTO_TEMP[match] = deepcopy(PHOTO_SOURCE[match])
     print("Done")
 
 
