@@ -11,7 +11,7 @@ import cv2
 import numpy as np
 import keyboard as kb
 
-debug = True
+debug = False
 
 # For conversion to 720p
 new_width = 1280
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     BASE_DIR = Path(__file__).resolve().parent
     chdir(BASE_DIR)
     kb.add_hotkey("ctrl+shift+h", finger_print)
-    print('Activated Hotkeys')
+    print('Activated Hotkeys: ctrl+shift+h => Fingerprint Hack ')
     if debug:
         print("Debug Mode Enabled")
         print("Initializing finger_print()")
